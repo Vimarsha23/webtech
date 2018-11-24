@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" href="quizz.css">
+</head>
+<body>
+	<h1>Quiz on Indian History</h1>
+<div class="quiz-container">
+  <div id="quiz"></div>
+</div>
+<button id="previous">Previous Question</button>
+<button id="next">Next Question</button>
+<button id="submit">Submit Quiz</button>
+<a href="index.html"><button id="endtest" >End Quiz</button></a>
+<div id="results"></div>
+<script type="text/javascript">
+	(function() {
+  const myQuestions = [
+    {
+      question: "1. Abdul Kalam Azad became president of India ?",
+      answers: {
+        a: "9th",
+        b: "10th",
+        c: "11th",
+        d: "12th"
+      },
+      correctAnswer: "c"
+    },
+    {
+      question: "2.	hoisted the flag on independence day at Delhi fort?",
+      answers: {
+        a: "President",
+        b: "Prime Minister ",
+        c: "Vice President",
+        d: "Chief Justice"
+      },
+      correctAnswer: "b"
+    },
+    {
+      question: "3.	Where is election commission located?",
+      answers: {
+        a: "New Delhi",
+        b: "Chennai",
+        c: "Mumbai",
+        d: "Kolkata"
+      },
+      correctAnswer: "a"
+    },
+    {
+      question: "4.	The Head of Indian Parliament system is?",
+      answers: {
+        a: "President",
+        b: "Prime Minister",
+        c: "Speaker of Rajya Sabha",
+        d: "Vice President"
+      },
+      correctAnswer: "a"
+    },
+    {
+      question: "5.	Who is Constituition Head of India?",
+      answers: {
+        a: "Prime Minister",
+        b: "Chief Justice of Supreme court",
+        c: "Speaker of Lok sabha",
+        d: "President "
+      },
+      correctAnswer: "d"
+    },
+    {
+       question: "6.Number of schedules in Indian constitution?",
+      answers: {
+        a: "7",
+        b: "12 ",
+        c: "9",
+        d: "8"
+      },
+      correctAnswer: "b"
+    },
+    {
+      question: "7.Who was the president of constitutional committee and played important role in drafting constitution?",
+      answers: {
+        a: "Ambedkar ",
+        b: "Gandhi",
+        c: "Both a and b",
+        d: "None"
+      },
+      correctAnswer: "a"
+    },
+    {
+      question: "8.	Who was the first Indian woman President of United Nation  General Assembly?",
+      answers: {
+        a: "Mother Teresa ",
+        b: "JIndira Gandhi",
+        c: "Vijayalakshmi Pandit  ",
+        d: "None of these"
+      },
+      correctAnswer: "c"
+    },
+    {
+      question: "9. Which of the following was the first female to become Governor of Indian state?",
+      answers: {
+        a: "Subbalakshmi",
+        b: "Padmaja Naidu",
+        c: "Vijayalakshmi Pandit",
+        d: "Sarojini Naidu "
+      },
+      correctAnswer: "d"
+    },
+    {
+      question: "10.Who among first woman to climb Mt.Everest twice?",
+      answers: {
+        a: "Santosh Yadav ",
+        b: "C B Mumtamma ",
+        c: "Anne Besant",
+        d: "Fiji"
+      },
+      correctAnswer: "a"
+    }
+  ];
+
+  function buildQuiz() {
+    // we'll need a place to store the HTML output
+    const output = [];
+
+    // for each question...
+    myQuestions.forEach((currentQuestion, questionNumber) => {
+      // we'll want to store the list of answer choices
+      const answers = [];
+
+      // and for each available answer...
+      for (letter in currentQuestion.answers) {
+        // ...add an HTML radio button
+        answers.push(
+          `<label>
+             <input type="radio" name="question${questionNumber}" value="${letter}">
+              ${letter} :
+              ${currentQuestion.answers[letter]}
+           </label>`
+        );
+      }
+
+      // add this question and its answers to the output
+      output.push(
+        `<div class="slide">
+           <div class="question"> ${currentQuestion.question} </div>
+           <div class="answers"> ${answers.join("")} </div>
+         </div>`
+      );
+    });
+
+    // finally combine our output list into one string of HTML and put it on the page
+    quizContainer.innerHTML = output.join("");
+  }
+
+  function showResults() {
+    // gather answer containers from our quiz
+    const answerContainers = quizContainer.querySelectorAll(".answers");
+
+    // keep track of user's answers
+    let numCorrect = 0;
+
+    // for each question...
+    myQuestions.forEach((currentQuestion, questionNumber) => {
+      // find selected answer
+      const answerContainer = answerContainers[questionNumber];
+      const selector = `input[name=question${questionNumber}]:checked`;
+      const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+
+      // if answer is correct
+      if (userAnswer === currentQuestion.correctAnswer) {
+        // add to the number of correct answers
+        numCorrect++;
+
+        // color the answers green
+        answerContainers[questionNumber].style.color = "lightgreen";
+      } else {
+        // if answer is wrong or blank
+        // color the answers red
+        answerContainers[questionNumber].style.color = "red";
+      }
+    });
+
+    // show number of correct answers out of total
+    resultsContainer.innerHTML = `${numCorrect} out of ${myQuestions.length}`;
+  }
+
+  function showSlide(n) {
+    slides[currentSlide].classList.remove("active-slide");
+    slides[n].classList.add("active-slide");
+    currentSlide = n;
+    
+    if (currentSlide === 0) {
+      previousButton.style.display = "none";
+    } else {
+      previousButton.style.display = "inline-block";
+    }
+    
+    if (currentSlide === slides.length - 1) {
+      nextButton.style.display = "none";
+      submitButton.style.display = "inline-block";
+      endtestButton.style.display="inline-block";
+    } else {
+      nextButton.style.display = "inline-block";
+      submitButton.style.display = "none";
+    }
+  }
+
+  function showNextSlide() {
+    showSlide(currentSlide + 1);
+  }
+
+  function showPreviousSlide() {
+    showSlide(currentSlide - 1);
+  }
+
+  function goToHomePage(){
+  	href="www.google.com"
+  }
+
+  const quizContainer = document.getElementById("quiz");
+  const resultsContainer = document.getElementById("results");
+  const submitButton = document.getElementById("submit");
+  const endtestButton = document.getElementById("endtest");
+
+  // display quiz right away
+  buildQuiz();
+
+  const previousButton = document.getElementById("previous");
+  const nextButton = document.getElementById("next");
+  const slides = document.querySelectorAll(".slide");
+  let currentSlide = 0;
+
+  showSlide(0);
+
+  // on submit, show results
+  submitButton.addEventListener("click", showResults);
+  previousButton.addEventListener("click", showPreviousSlide);
+  nextButton.addEventListener("click", showNextSlide);
+  endtestButton.addEventListener("click", href="index.html");
+})();
+
+
+</script>
+
+</body>
+</html>

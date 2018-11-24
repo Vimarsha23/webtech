@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" href="quizz.css">
+</head>
+<body>
+	<h1>Quiz on Astronomy</h1>
+<div class="quiz-container">
+  <div id="quiz"></div>
+</div>
+<button id="previous">Previous Question</button>
+<button id="next">Next Question</button>
+<button id="submit">Submit Quiz</button>
+<a href="index.html"><button id="endtest" >End Quiz</button></a>
+<div id="results"></div>
+<script type="text/javascript">
+	(function() {
+  const myQuestions = [
+    {
+      question: "1.	Which of the following phenomena cannot be observed on surface of moon?",
+      answers: {
+        a: "Rising and setting of the Sun",
+        b: "Solar eclipse",
+        c: "Motion of  comets",
+        d: "Twinkling of stars"
+      },
+      correctAnswer: "d"
+    },
+    {
+      question: "2.Which of the following planets has a revolution time which is shorter than its rotation time?",
+      answers: {
+        a: "Jupiter",
+        b: "Venus",
+        c: "Mars ",
+        d: "Uranus"
+      },
+      correctAnswer: "b"
+    },
+    {
+      question: "3.	Which planet looks reddish in night sky?",
+      answers: {
+        a: "Jupiter",
+        b: "Saturn",
+        c: "Mars",
+        d: "Mercury"
+      },
+      correctAnswer: "c"
+    },
+    {
+      question: "4.Which female astronaut spent maximum time in space?",
+      answers: {
+        a: "Sunita Williams ",
+        b: "Lisa Norwak",
+        c: "Kalpana Chawla ",
+        d: "None"
+      },
+      correctAnswer: "a"
+    },
+    {
+      question: "5.Which planet has fastest revolution time?",
+      answers: {
+        a: "Jupiter",
+        b: "Neptune",
+        c: "Uranus",
+        d: "Mercury "
+      },
+      correctAnswer: "d"
+    },
+    {
+      question: "6.	An astronaut in outer space will observe sky as?",
+      answers: {
+        a: "white",
+        b: "blue ",
+        c: "black",
+        d: "red"
+      },
+      correctAnswer: "c"
+    },
+    {
+      question: "7.	Which of following planets rotates in a direction opposite to the direction of earth’s rotation?",
+      answers: {
+        a: "Mars",
+        b: "Jupiter",
+        c: "Mercury",
+        d: "Venus"
+      },
+      correctAnswer: "d"
+    },
+    {
+      question: "8.is the average distance between sun and earth?",
+      answers: {
+        a: "150*10^6km ",
+        b: "110*10^6km",
+        c: "100*10^5km",
+        d: "70*10^5 km"
+      },
+      correctAnswer: "a"
+    },
+    {
+      question: "9. Nasa’s deep impact mission was employed to take detail picture of which comet nucleus?",
+      answers: {
+        a: "Halley’s comet",
+        b: "Tempel 1",
+        c: "Hale-Boop",
+        d: "Hyakutake"
+      },
+      correctAnswer: "b"
+    },
+    {
+      question: "10.Which of the following planets has  lesser  rotation time than earth?",
+      answers: {
+        a: "Venus",
+        b: "Mars ",
+        c: "Jupiter",
+        d: "Mercury"
+      },
+      correctAnswer: "c"
+    }
+  ];
+
+  function buildQuiz() {
+    // we'll need a place to store the HTML output
+    const output = [];
+
+    // for each question...
+    myQuestions.forEach((currentQuestion, questionNumber) => {
+      // we'll want to store the list of answer choices
+      const answers = [];
+
+      // and for each available answer...
+      for (letter in currentQuestion.answers) {
+        // ...add an HTML radio button
+        answers.push(
+          `<label>
+             <input type="radio" name="question${questionNumber}" value="${letter}">
+              ${letter} :
+              ${currentQuestion.answers[letter]}
+           </label>`
+        );
+      }
+
+      // add this question and its answers to the output
+      output.push(
+        `<div class="slide">
+           <div class="question"> ${currentQuestion.question} </div>
+           <div class="answers"> ${answers.join("")} </div>
+         </div>`
+      );
+    });
+
+    // finally combine our output list into one string of HTML and put it on the page
+    quizContainer.innerHTML = output.join("");
+  }
+
+  function showResults() {
+    // gather answer containers from our quiz
+    const answerContainers = quizContainer.querySelectorAll(".answers");
+
+    // keep track of user's answers
+    let numCorrect = 0;
+
+    // for each question...
+    myQuestions.forEach((currentQuestion, questionNumber) => {
+      // find selected answer
+      const answerContainer = answerContainers[questionNumber];
+      const selector = `input[name=question${questionNumber}]:checked`;
+      const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+
+      // if answer is correct
+      if (userAnswer === currentQuestion.correctAnswer) {
+        // add to the number of correct answers
+        numCorrect++;
+
+        // color the answers green
+        answerContainers[questionNumber].style.color = "lightgreen";
+      } else {
+        // if answer is wrong or blank
+        // color the answers red
+        answerContainers[questionNumber].style.color = "red";
+      }
+    });
+
+    // show number of correct answers out of total
+    resultsContainer.innerHTML = `${numCorrect} out of ${myQuestions.length}`;
+  }
+
+  function showSlide(n) {
+    slides[currentSlide].classList.remove("active-slide");
+    slides[n].classList.add("active-slide");
+    currentSlide = n;
+    
+    if (currentSlide === 0) {
+      previousButton.style.display = "none";
+    } else {
+      previousButton.style.display = "inline-block";
+    }
+    
+    if (currentSlide === slides.length - 1) {
+      nextButton.style.display = "none";
+      submitButton.style.display = "inline-block";
+      endtestButton.style.display="inline-block";
+    } else {
+      nextButton.style.display = "inline-block";
+      submitButton.style.display = "none";
+    }
+  }
+
+  function showNextSlide() {
+    showSlide(currentSlide + 1);
+  }
+
+  function showPreviousSlide() {
+    showSlide(currentSlide - 1);
+  }
+
+  function goToHomePage(){
+  	href="www.google.com"
+  }
+
+  const quizContainer = document.getElementById("quiz");
+  const resultsContainer = document.getElementById("results");
+  const submitButton = document.getElementById("submit");
+  const endtestButton = document.getElementById("endtest");
+
+  // display quiz right away
+  buildQuiz();
+
+  const previousButton = document.getElementById("previous");
+  const nextButton = document.getElementById("next");
+  const slides = document.querySelectorAll(".slide");
+  let currentSlide = 0;
+
+  showSlide(0);
+
+  // on submit, show results
+  submitButton.addEventListener("click", showResults);
+  previousButton.addEventListener("click", showPreviousSlide);
+  nextButton.addEventListener("click", showNextSlide);
+  endtestButton.addEventListener("click", href="index.html");
+})();
+
+
+</script>
+
+</body>
+</html>

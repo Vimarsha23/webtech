@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" href="quizz.css">
+</head>
+<body>
+	<h1>Quiz on Sports</h1>
+<div class="quiz-container">
+  <div id="quiz"></div>
+</div>
+<button id="previous">Previous Question</button>
+<button id="next">Next Question</button>
+<button id="submit">Submit Quiz</button>
+<a href="index.html"><button id="endtest" >End Quiz</button></a>
+<div id="results"></div>
+<script type="text/javascript">
+	(function() {
+  const myQuestions = [
+    {
+      question: "1.Who was the first Indian to win the World Amateur Billiards title?",
+      answers: {
+        a: "Geet Sethi",
+        b: "Wilson Jones",
+        c: "Michael Ferreira",
+        d: "Manoj Kothari"
+      },
+      correctAnswer: "b"
+    },
+    {
+      question: "2.Who is the first Indian woman to win an Asian Games gold in 400m run",
+      answers: {
+        a: "Kamaljit Sandhu",
+        b: "K.Malleshwari",
+        c: "P.T.Usha",
+        d: "M.L.Valsamma"
+      },
+      correctAnswer: "a"
+    },
+    {
+      question: "3.Ricky Ponting is also known as what?",
+      answers: {
+        a: "The Rickster",
+        b: "Ponter",
+        c: "Punter",
+        d: "Ponts"
+      },
+      correctAnswer: "c"
+    },
+    {
+      question: "4.How long are professional Golf Tour players allotted per shot?",
+      answers: {
+        a: "45 seconds",
+        b: "60 seconds",
+        c: "75 seconds",
+        d: "30 seconds"
+      },
+      correctAnswer: "a"
+    },
+    {
+      question: "5.Which NBA player scored 8 points in the final 7 seconds of a game to lead his team to victory?",
+      answers: {
+        a: "Baron Davis",
+        b: "Kevin Garnett",
+        c: "Stephon Maurbury",
+        d: "Reggie Miller "
+      },
+      correctAnswer: "d"
+    },
+    {
+      question: "6.In the match between India and Pakistan at Jaipur on 02-10-1983, Which new rule was introduced?",
+      answers: {
+        a: "Limit of overs was reduced to 50 overs",
+        b: "The rule of field restriction was taken",
+        c: "No-balls & wides were debited to bowlers analysis",
+        d: "Over throw runs were batsman's score"
+      },
+      correctAnswer: "c"
+    },
+    {
+      question: "7.India won its first Olympic hockey gold in...?",
+      answers: {
+        a: "1932",
+        b: "1928",
+        c: "1936",
+        d: "1942"
+      },
+      correctAnswer: "b"
+    },
+    {
+      question: "8.In which year did Milkha Singh win the first National title in the 400 m race?",
+      answers: {
+        a: "1957",
+        b: "1956",
+        c: "1958",
+        d: "1959"
+      },
+      correctAnswer: "a"
+    },
+    {
+      question: "9.Who won the 1993 King of the Ring?",
+      answers: {
+        a: "Owen Hart",
+        b: "Bret Hart",
+        c: "Edge",
+        d: "Mable"
+      },
+      correctAnswer: "b"
+    },
+    {
+      question: "10.Who among the following is NOT associated with billiards in India?",
+      answers: {
+        a: "Subash Agrawal",
+        b: "Ashok Shandilya",
+        c: "Manoj Kothari",
+        d: "Mihir Sen"
+      },
+      correctAnswer: "d"
+    }
+  ];
+
+  function buildQuiz() {
+    // we'll need a place to store the HTML output
+    const output = [];
+
+    // for each question...
+    myQuestions.forEach((currentQuestion, questionNumber) => {
+      // we'll want to store the list of answer choices
+      const answers = [];
+
+      // and for each available answer...
+      for (letter in currentQuestion.answers) {
+        // ...add an HTML radio button
+        answers.push(
+          `<label>
+             <input type="radio" name="question${questionNumber}" value="${letter}">
+              ${letter} :
+              ${currentQuestion.answers[letter]}
+           </label>`
+        );
+      }
+
+      // add this question and its answers to the output
+      output.push(
+        `<div class="slide">
+           <div class="question"> ${currentQuestion.question} </div>
+           <div class="answers"> ${answers.join("")} </div>
+         </div>`
+      );
+    });
+
+    // finally combine our output list into one string of HTML and put it on the page
+    quizContainer.innerHTML = output.join("");
+  }
+
+  function showResults() {
+    // gather answer containers from our quiz
+    const answerContainers = quizContainer.querySelectorAll(".answers");
+
+    // keep track of user's answers
+    let numCorrect = 0;
+
+    // for each question...
+    myQuestions.forEach((currentQuestion, questionNumber) => {
+      // find selected answer
+      const answerContainer = answerContainers[questionNumber];
+      const selector = `input[name=question${questionNumber}]:checked`;
+      const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+
+      // if answer is correct
+      if (userAnswer === currentQuestion.correctAnswer) {
+        // add to the number of correct answers
+        numCorrect++;
+
+        // color the answers green
+        answerContainers[questionNumber].style.color = "lightgreen";
+      } else {
+        // if answer is wrong or blank
+        // color the answers red
+        answerContainers[questionNumber].style.color = "red";
+      }
+    });
+
+    // show number of correct answers out of total
+    resultsContainer.innerHTML = `${numCorrect} out of ${myQuestions.length}`;
+  }
+
+  function showSlide(n) {
+    slides[currentSlide].classList.remove("active-slide");
+    slides[n].classList.add("active-slide");
+    currentSlide = n;
+    
+    if (currentSlide === 0) {
+      previousButton.style.display = "none";
+    } else {
+      previousButton.style.display = "inline-block";
+    }
+    
+    if (currentSlide === slides.length - 1) {
+      nextButton.style.display = "none";
+      submitButton.style.display = "inline-block";
+      endtestButton.style.display="inline-block";
+    } else {
+      nextButton.style.display = "inline-block";
+      submitButton.style.display = "none";
+    }
+  }
+
+  function showNextSlide() {
+    showSlide(currentSlide + 1);
+  }
+
+  function showPreviousSlide() {
+    showSlide(currentSlide - 1);
+  }
+
+  function goToHomePage(){
+  	href="www.google.com"
+  }
+
+  const quizContainer = document.getElementById("quiz");
+  const resultsContainer = document.getElementById("results");
+  const submitButton = document.getElementById("submit");
+  const endtestButton = document.getElementById("endtest");
+
+  // display quiz right away
+  buildQuiz();
+
+  const previousButton = document.getElementById("previous");
+  const nextButton = document.getElementById("next");
+  const slides = document.querySelectorAll(".slide");
+  let currentSlide = 0;
+
+  showSlide(0);
+
+  // on submit, show results
+  submitButton.addEventListener("click", showResults);
+  previousButton.addEventListener("click", showPreviousSlide);
+  nextButton.addEventListener("click", showNextSlide);
+  endtestButton.addEventListener("click", href="index.html");
+})();
+
+
+</script>
+
+</body>
+</html>

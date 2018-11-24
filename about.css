@@ -1,0 +1,132 @@
+
+
+
+
+.img-responsive{
+	max-width: 100%;
+	
+}
+.hero_image{
+	
+	font-family: 'Oswald', sans-serif;
+	background:url(img/about.jpg) no-repeat;
+	-webkit-background-size: cover;
+	background-size: cover;
+	height: 100vh;
+	position: relative;
+
+
+}
+
+
+.hero_wrapper{
+	color: black;
+	position: absolute;
+	top: 40%;
+	left: 40%;
+	transform: translated(-50%,-50%);
+}
+
+.hero_wrapper h1{
+	font-size: 3.6rem;
+	text-align: center;
+	color:aqua;
+	font-size: 70px;
+
+}
+.hero_wrapper span {
+ margin-left: 1rem;
+ margin-bottom: .5rem;
+ display: inline-block;
+
+}
+
+/*
+
+.form_code {
+	text-align: center;
+
+}
+
+.form_code .proceed{
+	display: block;
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+	border-radius: 2rem;
+	padding: .6rem;
+	border: none;
+	outline: none;
+}
+
+.form_code button {
+	width: 40%;
+	display: inline-block;
+	text-align: center;
+	background-color:pink;
+    padding: .6rem;
+    margin-top: 1rem;
+    margin: 1rem auto 0rem;
+    border: none;
+    border-radius: .3rem;
+	
+}
+.extras{
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 1rem;
+	padding-top: 2rem;
+	
+
+}
+/*.domains{
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 1rem;
+	padding-top: 2rem;
+	
+
+}
+.help{
+	float: left;
+	width: 30%;
+	margin-left: 1rem;
+	margin-top: .8rem;
+	padding-top: .5rem;
+
+}
+
+.help:first-of-type {
+	margin-left: 0.5;
+}
+
+@media screen and (max-width: 700px){
+	.help{
+		width: 100%;
+		float: none;
+	}
+}
+
+.two{
+	float: left;
+	width: 30%;
+	margin-left: 1rem;
+	margin-top: .8rem;
+	padding-top: .5rem;
+
+}
+
+.two:first-of-type {
+	margin-left: 0.5;
+}
+
+@media screen and (max-width: 700px){
+	.two{
+		width: 100%;
+		float: none;
+	}
+}
+	
+*/
